@@ -1,0 +1,11 @@
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\bin\Debug\LEGO Robot Manager.exe.config
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\bin\Debug\LEGO Robot Manager.exe
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\bin\Debug\LEGO Robot Manager.pdb
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\bin\Debug\EV3MessengerLib.dll
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\bin\Debug\EV3MessengerLib.xml
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\obj\Debug\LEGO Robot Manager.csprojResolveAssemblyReference.cache
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\obj\Debug\LEGO_Robot_Manager.LEGO_Robot_Manager.resources
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\obj\Debug\LEGO_Robot_Manager.Properties.Resources.resources
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\obj\Debug\LEGO Robot Manager.csproj.GenerateResource.Cache
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\obj\Debug\LEGO Robot Manager.exe
+C:\Users\Alex\Dropbox\HBO-ICT\Semester 1\FIS2\Robot Project Files\LEGO Robot Manager\LEGO Robot Manager\obj\Debug\LEGO Robot Manager.pdb
