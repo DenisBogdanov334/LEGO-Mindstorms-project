@@ -19,7 +19,8 @@ namespace LEGO_Robot_Manager
         bool isConnected = false;
         bool isControlled = false;
         bool isManaged = false;
-
+        bool isPaused = true;
+        bool firstTime = true;
 
         // Constructor
         public LEGO_Robot_Manager()
@@ -92,6 +93,7 @@ namespace LEGO_Robot_Manager
         {
             isManaged = true;
             UpdateFormGUI();
+            messenger.SendMessage("Robot_Mode", "Manage");
         }
 
         private void btnStopManage_Click(object sender, EventArgs e)
@@ -99,6 +101,21 @@ namespace LEGO_Robot_Manager
             isManaged = false;
             UpdateFormGUI();
         }
+
+        private void btnManagePauseContinue_Click(object sender, EventArgs e)
+        {
+            if (isPaused)
+            {
+                messenger.SendMessage("Robot_Status", "Busy");
+                isPaused = false;
+            }
+            else
+            {
+                messenger.SendMessage("Robot_Status", "Pause");
+                isPaused = true;
+            }
+        }
+
 
         #endregion
 
@@ -114,6 +131,7 @@ namespace LEGO_Robot_Manager
             btnRight.Enabled = true;
             btnPickUp.Enabled = true;
             btnPutDown.Enabled = true;
+            messenger.SendMessage("Robot_Mode", "Control");
         }
 
         private void btnStopControl_Click(object sender, EventArgs e)
@@ -239,8 +257,11 @@ namespace LEGO_Robot_Manager
             }
         }
 
+
+
+
         #endregion
 
-
+        
     }
 }

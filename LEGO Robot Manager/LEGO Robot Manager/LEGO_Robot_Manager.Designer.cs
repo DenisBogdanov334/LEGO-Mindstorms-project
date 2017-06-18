@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pnlConnect = new System.Windows.Forms.Panel();
             this.btnConnect = new System.Windows.Forms.Button();
             this.lstPorts = new System.Windows.Forms.ListBox();
@@ -50,6 +51,8 @@
             this.btnStopControl = new System.Windows.Forms.Button();
             this.btnStartControl = new System.Windows.Forms.Button();
             this.lblControl = new System.Windows.Forms.Label();
+            this.btnManagePauseContinue = new System.Windows.Forms.Button();
+            this.elapsedTime = new System.Windows.Forms.Timer(this.components);
             this.pnlConnect.SuspendLayout();
             this.pnlManage.SuspendLayout();
             this.pnlControl.SuspendLayout();
@@ -109,13 +112,14 @@
             // pnlManage
             // 
             this.pnlManage.BackColor = System.Drawing.Color.LightGray;
+            this.pnlManage.Controls.Add(this.btnManagePauseContinue);
             this.pnlManage.Controls.Add(this.txtStatus);
             this.pnlManage.Controls.Add(this.lblStatus);
             this.pnlManage.Controls.Add(this.btnStopManage);
             this.pnlManage.Controls.Add(this.btnStartManage);
             this.pnlManage.Location = new System.Drawing.Point(268, 49);
             this.pnlManage.Name = "pnlManage";
-            this.pnlManage.Size = new System.Drawing.Size(215, 130);
+            this.pnlManage.Size = new System.Drawing.Size(312, 130);
             this.pnlManage.TabIndex = 1;
             // 
             // txtStatus
@@ -123,7 +127,7 @@
             this.txtStatus.Enabled = false;
             this.txtStatus.Location = new System.Drawing.Point(77, 89);
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(124, 22);
+            this.txtStatus.Size = new System.Drawing.Size(220, 22);
             this.txtStatus.TabIndex = 5;
             // 
             // lblStatus
@@ -189,13 +193,13 @@
             this.pnlControl.Controls.Add(this.btnStartControl);
             this.pnlControl.Location = new System.Drawing.Point(25, 232);
             this.pnlControl.Name = "pnlControl";
-            this.pnlControl.Size = new System.Drawing.Size(460, 156);
+            this.pnlControl.Size = new System.Drawing.Size(555, 156);
             this.pnlControl.TabIndex = 4;
             // 
             // btnPutDown
             // 
             this.btnPutDown.Enabled = false;
-            this.btnPutDown.Location = new System.Drawing.Point(368, 86);
+            this.btnPutDown.Location = new System.Drawing.Point(465, 86);
             this.btnPutDown.Name = "btnPutDown";
             this.btnPutDown.Size = new System.Drawing.Size(75, 50);
             this.btnPutDown.TabIndex = 7;
@@ -206,7 +210,7 @@
             // btnPickUp
             // 
             this.btnPickUp.Enabled = false;
-            this.btnPickUp.Location = new System.Drawing.Point(368, 25);
+            this.btnPickUp.Location = new System.Drawing.Point(465, 25);
             this.btnPickUp.Name = "btnPickUp";
             this.btnPickUp.Size = new System.Drawing.Size(75, 50);
             this.btnPickUp.TabIndex = 6;
@@ -217,7 +221,7 @@
             // btnDown
             // 
             this.btnDown.Enabled = false;
-            this.btnDown.Location = new System.Drawing.Point(202, 86);
+            this.btnDown.Location = new System.Drawing.Point(248, 86);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(70, 50);
             this.btnDown.TabIndex = 5;
@@ -228,7 +232,7 @@
             // btnRight
             // 
             this.btnRight.Enabled = false;
-            this.btnRight.Location = new System.Drawing.Point(278, 86);
+            this.btnRight.Location = new System.Drawing.Point(324, 86);
             this.btnRight.Name = "btnRight";
             this.btnRight.Size = new System.Drawing.Size(70, 50);
             this.btnRight.TabIndex = 4;
@@ -239,7 +243,7 @@
             // btnLeft
             // 
             this.btnLeft.Enabled = false;
-            this.btnLeft.Location = new System.Drawing.Point(126, 86);
+            this.btnLeft.Location = new System.Drawing.Point(172, 86);
             this.btnLeft.Name = "btnLeft";
             this.btnLeft.Size = new System.Drawing.Size(70, 50);
             this.btnLeft.TabIndex = 3;
@@ -250,7 +254,7 @@
             // btnUp
             // 
             this.btnUp.Enabled = false;
-            this.btnUp.Location = new System.Drawing.Point(202, 30);
+            this.btnUp.Location = new System.Drawing.Point(248, 30);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(70, 50);
             this.btnUp.TabIndex = 2;
@@ -289,12 +293,23 @@
             this.lblControl.TabIndex = 5;
             this.lblControl.Text = "Control";
             // 
+            // btnManagePauseContinue
+            // 
+            this.btnManagePauseContinue.BackColor = System.Drawing.Color.OrangeRed;
+            this.btnManagePauseContinue.Location = new System.Drawing.Point(207, 15);
+            this.btnManagePauseContinue.Name = "btnManagePauseContinue";
+            this.btnManagePauseContinue.Size = new System.Drawing.Size(90, 60);
+            this.btnManagePauseContinue.TabIndex = 6;
+            this.btnManagePauseContinue.Text = "PAUSE CONTINUE";
+            this.btnManagePauseContinue.UseVisualStyleBackColor = false;
+            this.btnManagePauseContinue.Click += new System.EventHandler(this.btnManagePauseContinue_Click);
+            // 
             // LEGO_Robot_Manager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(512, 414);
+            this.ClientSize = new System.Drawing.Size(676, 414);
             this.Controls.Add(this.lblControl);
             this.Controls.Add(this.pnlControl);
             this.Controls.Add(this.lblManage);
@@ -336,6 +351,8 @@
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.Button btnLeft;
         private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.Button btnManagePauseContinue;
+        private System.Windows.Forms.Timer elapsedTime;
     }
 }
 
