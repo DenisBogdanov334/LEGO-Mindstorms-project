@@ -54,8 +54,9 @@ namespace LEGO_Robot_Manager
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    lstPickUpHistory.Items.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
-                    timeToPickUp.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
+                    TimeSpan lineTime = TimeSpan.FromMilliseconds(Convert.ToInt64(line));
+                    lstPickUpHistory.Items.Add(lineTime.Minutes + ":" + lineTime.Seconds);
+                    timeToPickUp.Add(lineTime);
                 }
             }
 
@@ -64,8 +65,9 @@ namespace LEGO_Robot_Manager
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    lstDropOffHistory.Items.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
-                    timeToDropOff.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
+                    TimeSpan lineTime = TimeSpan.FromMilliseconds(Convert.ToInt64(line));
+                    lstDropOffHistory.Items.Add(lineTime.Minutes+":"+lineTime.Seconds);
+                    timeToDropOff.Add(lineTime);
                 }
             }
 
@@ -217,7 +219,7 @@ namespace LEGO_Robot_Manager
                     stopwatch.Stop();
                     timespan = TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds);
                     timeToPickUp.Add(timespan);
-                    lstPickUpHistory.Items.Add(timespan.ToString());
+                    lstPickUpHistory.Items.Add(timespan.Minutes+":"+timespan.Seconds);
                     firstTimePick = false;
                     stopwatch.Reset();
                     stopwatch.Start();
@@ -233,11 +235,12 @@ namespace LEGO_Robot_Manager
             {                
                 if (firstTimeDrop)
                 {
+                    txtETA.Text = "0:00";
                     txtStatus.Text = "Returning home";
                     stopwatch.Stop();
                     timespan = TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds);
                     timeToDropOff.Add(timespan);
-                    lstDropOffHistory.Items.Add(timespan.ToString());
+                    lstDropOffHistory.Items.Add(timespan.Minutes + ":" + timespan.Seconds);
                     firstTimeDrop = false;
                     stopwatch.Reset();
 
