@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.IO;
 
 namespace LEGO_Robot_Manager
 {
@@ -16,11 +18,24 @@ namespace LEGO_Robot_Manager
     {
         // Fields
         private EV3Messenger messenger;
+        EV3Message message;
+        TimeSpan timespan = new TimeSpan(0, 0, 0);
+        private Stopwatch stopwatch = new Stopwatch();
         bool isConnected = false;
         bool isControlled = false;
         bool isManaged = false;
-        bool isPaused = true;
-        bool firstTime = true;
+        bool isPaused = false;
+        bool isPickedUp = false;
+        bool isDropped = false;
+        double avgTimePickUp = 0, avgTimeDropOff = 0;
+
+        List<TimeSpan> timeToPickUp = new List<TimeSpan>();
+        List<TimeSpan> timeToDropOff = new List<TimeSpan>();
+        bool firstTimePick = true;
+        bool firstTimeDrop = true;
+
+        int timeInMilliseconds = 0;
+
 
         // Constructor
         public LEGO_Robot_Manager()
@@ -32,6 +47,41 @@ namespace LEGO_Robot_Manager
             FillPortsList();
             UpdateFormGUI();
             this.KeyPreview = true;
+
+            // Load previous times in the appropriate listboxes
+            using (StreamReader sr = new StreamReader("PickUpHistory.txt"))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    lstPickUpHistory.Items.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
+                    timeToPickUp.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
+                }
+            }
+
+            using (StreamReader sr = new StreamReader("DropOffHistory.txt"))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    lstDropOffHistory.Items.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
+                    timeToDropOff.Add(TimeSpan.FromMilliseconds(Convert.ToInt64(line)));
+                }
+            }
+
+            int sumTimes = 0;
+            foreach(var item in timeToPickUp)
+            {
+                sumTimes += (int)item.TotalMilliseconds;
+            }
+            avgTimePickUp = sumTimes / timeToPickUp.Count;
+
+            sumTimes = 0;
+            foreach (var item in timeToDropOff)
+            {
+                sumTimes += (int)item.TotalMilliseconds;
+            }
+            avgTimeDropOff = sumTimes / timeToDropOff.Count;
         }
 
         // Methods
@@ -97,6 +147,8 @@ namespace LEGO_Robot_Manager
             btnStartManage.Enabled = false;
             btnStopManage.Enabled = true;
             btnManagePauseContinue.Enabled = true;
+            elapsedTime.Start();
+            stopwatch.Start();
         }
 
         private void btnStopManage_Click(object sender, EventArgs e)
@@ -121,6 +173,81 @@ namespace LEGO_Robot_Manager
             }
         }
 
+        private void elapsedTime_Tick(object sender, EventArgs e)
+        {
+            timeInMilliseconds += 100;
+            int etaMilliseconds;
+            message = messenger.ReadMessage();
+            if (message != null)
+            {
+                if (message.ValueAsText == "Picked_Up") isPickedUp = true;
+                else if (message.ValueAsText == "Dropped_Off") isDropped = true;
+            }            
+
+            if (!isPickedUp && !isDropped)
+            {
+                txtStatus.Text = "Retreiving package";
+                if (avgTimePickUp - timeInMilliseconds < 0)
+                {
+                    txtETA.Text = "The AGV is delayed";
+                }
+                else
+                {
+                    etaMilliseconds = (int)avgTimePickUp - timeInMilliseconds;
+                    txtETA.Text = string.Format(TimeSpan.FromMilliseconds(etaMilliseconds).Minutes +":"+ TimeSpan.FromMilliseconds(etaMilliseconds).Seconds) ;
+                }
+                
+            }
+            else if (isPickedUp && !isDropped)
+            {
+                if (avgTimeDropOff - timeInMilliseconds < 0)
+                {
+                    txtETA.Text = "The AGV is delayed";
+                }
+                else
+                {
+                    etaMilliseconds = (int)avgTimeDropOff - timeInMilliseconds;
+                    txtETA.Text = string.Format(TimeSpan.FromMilliseconds(etaMilliseconds).Minutes + ":" + TimeSpan.FromMilliseconds(etaMilliseconds).Seconds);
+                }
+
+                if (firstTimePick)
+                {
+                    timeInMilliseconds = 0;
+                    txtStatus.Text = "Delivering package";                    
+                    stopwatch.Stop();
+                    timespan = TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds);
+                    timeToPickUp.Add(timespan);
+                    lstPickUpHistory.Items.Add(timespan.ToString());
+                    firstTimePick = false;
+                    stopwatch.Reset();
+                    stopwatch.Start();
+
+                    using (StreamWriter sw = new StreamWriter("PickUpHistory.txt", true))
+                    {
+                        sw.WriteLine(timespan.TotalMilliseconds);
+                    }
+                }
+                              
+            }
+            else
+            {                
+                if (firstTimeDrop)
+                {
+                    txtStatus.Text = "Returning home";
+                    stopwatch.Stop();
+                    timespan = TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds);
+                    timeToDropOff.Add(timespan);
+                    lstDropOffHistory.Items.Add(timespan.ToString());
+                    firstTimeDrop = false;
+                    stopwatch.Reset();
+
+                    using (StreamWriter sw = new StreamWriter("DropOffHistory.txt", true))
+                    {
+                        sw.WriteLine(timespan.TotalMilliseconds);
+                    }
+                }                
+            }
+        }
 
         #endregion
 
@@ -268,12 +395,9 @@ namespace LEGO_Robot_Manager
                 btnStopControl.Enabled = false;
             }
         }
-
-
-
-
+        
         #endregion
 
-        
+
     }
 }

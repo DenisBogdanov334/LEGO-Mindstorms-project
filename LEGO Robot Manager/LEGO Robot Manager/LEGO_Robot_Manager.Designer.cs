@@ -35,6 +35,7 @@
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.pnlManage = new System.Windows.Forms.Panel();
+            this.btnManagePauseContinue = new System.Windows.Forms.Button();
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnStopManage = new System.Windows.Forms.Button();
@@ -51,11 +52,19 @@
             this.btnStopControl = new System.Windows.Forms.Button();
             this.btnStartControl = new System.Windows.Forms.Button();
             this.lblControl = new System.Windows.Forms.Label();
-            this.btnManagePauseContinue = new System.Windows.Forms.Button();
             this.elapsedTime = new System.Windows.Forms.Timer(this.components);
+            this.pnlHistory = new System.Windows.Forms.Panel();
+            this.lblETA = new System.Windows.Forms.Label();
+            this.txtETA = new System.Windows.Forms.TextBox();
+            this.lblHistory = new System.Windows.Forms.Label();
+            this.lstPickUpHistory = new System.Windows.Forms.ListBox();
+            this.lstDropOffHistory = new System.Windows.Forms.ListBox();
+            this.lblDropOffHistory = new System.Windows.Forms.Label();
+            this.lblPickUpHistory = new System.Windows.Forms.Label();
             this.pnlConnect.SuspendLayout();
             this.pnlManage.SuspendLayout();
             this.pnlControl.SuspendLayout();
+            this.pnlHistory.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlConnect
@@ -112,6 +121,8 @@
             // pnlManage
             // 
             this.pnlManage.BackColor = System.Drawing.Color.LightGray;
+            this.pnlManage.Controls.Add(this.txtETA);
+            this.pnlManage.Controls.Add(this.lblETA);
             this.pnlManage.Controls.Add(this.btnManagePauseContinue);
             this.pnlManage.Controls.Add(this.txtStatus);
             this.pnlManage.Controls.Add(this.lblStatus);
@@ -119,8 +130,19 @@
             this.pnlManage.Controls.Add(this.btnStartManage);
             this.pnlManage.Location = new System.Drawing.Point(268, 49);
             this.pnlManage.Name = "pnlManage";
-            this.pnlManage.Size = new System.Drawing.Size(312, 130);
+            this.pnlManage.Size = new System.Drawing.Size(312, 155);
             this.pnlManage.TabIndex = 1;
+            // 
+            // btnManagePauseContinue
+            // 
+            this.btnManagePauseContinue.BackColor = System.Drawing.Color.OrangeRed;
+            this.btnManagePauseContinue.Location = new System.Drawing.Point(207, 15);
+            this.btnManagePauseContinue.Name = "btnManagePauseContinue";
+            this.btnManagePauseContinue.Size = new System.Drawing.Size(90, 60);
+            this.btnManagePauseContinue.TabIndex = 6;
+            this.btnManagePauseContinue.Text = "PAUSE CONTINUE";
+            this.btnManagePauseContinue.UseVisualStyleBackColor = false;
+            this.btnManagePauseContinue.Click += new System.EventHandler(this.btnManagePauseContinue_Click);
             // 
             // txtStatus
             // 
@@ -293,23 +315,95 @@
             this.lblControl.TabIndex = 5;
             this.lblControl.Text = "Control";
             // 
-            // btnManagePauseContinue
+            // elapsedTime
             // 
-            this.btnManagePauseContinue.BackColor = System.Drawing.Color.OrangeRed;
-            this.btnManagePauseContinue.Location = new System.Drawing.Point(207, 15);
-            this.btnManagePauseContinue.Name = "btnManagePauseContinue";
-            this.btnManagePauseContinue.Size = new System.Drawing.Size(90, 60);
-            this.btnManagePauseContinue.TabIndex = 6;
-            this.btnManagePauseContinue.Text = "PAUSE CONTINUE";
-            this.btnManagePauseContinue.UseVisualStyleBackColor = false;
-            this.btnManagePauseContinue.Click += new System.EventHandler(this.btnManagePauseContinue_Click);
+            this.elapsedTime.Tick += new System.EventHandler(this.elapsedTime_Tick);
+            // 
+            // pnlHistory
+            // 
+            this.pnlHistory.BackColor = System.Drawing.Color.LightGray;
+            this.pnlHistory.Controls.Add(this.lblPickUpHistory);
+            this.pnlHistory.Controls.Add(this.lblDropOffHistory);
+            this.pnlHistory.Controls.Add(this.lstDropOffHistory);
+            this.pnlHistory.Controls.Add(this.lstPickUpHistory);
+            this.pnlHistory.Location = new System.Drawing.Point(597, 49);
+            this.pnlHistory.Name = "pnlHistory";
+            this.pnlHistory.Size = new System.Drawing.Size(250, 339);
+            this.pnlHistory.TabIndex = 6;
+            // 
+            // lblETA
+            // 
+            this.lblETA.AutoSize = true;
+            this.lblETA.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblETA.Location = new System.Drawing.Point(19, 127);
+            this.lblETA.Name = "lblETA";
+            this.lblETA.Size = new System.Drawing.Size(39, 17);
+            this.lblETA.TabIndex = 7;
+            this.lblETA.Text = "ETA:";
+            // 
+            // txtETA
+            // 
+            this.txtETA.Enabled = false;
+            this.txtETA.Location = new System.Drawing.Point(77, 124);
+            this.txtETA.Name = "txtETA";
+            this.txtETA.Size = new System.Drawing.Size(220, 22);
+            this.txtETA.TabIndex = 8;
+            // 
+            // lblHistory
+            // 
+            this.lblHistory.AutoSize = true;
+            this.lblHistory.Location = new System.Drawing.Point(609, 28);
+            this.lblHistory.Name = "lblHistory";
+            this.lblHistory.Size = new System.Drawing.Size(52, 17);
+            this.lblHistory.TabIndex = 7;
+            this.lblHistory.Text = "History";
+            // 
+            // lstPickUpHistory
+            // 
+            this.lstPickUpHistory.FormattingEnabled = true;
+            this.lstPickUpHistory.ItemHeight = 16;
+            this.lstPickUpHistory.Location = new System.Drawing.Point(15, 39);
+            this.lstPickUpHistory.Name = "lstPickUpHistory";
+            this.lstPickUpHistory.Size = new System.Drawing.Size(218, 116);
+            this.lstPickUpHistory.TabIndex = 0;
+            // 
+            // lstDropOffHistory
+            // 
+            this.lstDropOffHistory.FormattingEnabled = true;
+            this.lstDropOffHistory.ItemHeight = 16;
+            this.lstDropOffHistory.Location = new System.Drawing.Point(15, 208);
+            this.lstDropOffHistory.Name = "lstDropOffHistory";
+            this.lstDropOffHistory.Size = new System.Drawing.Size(218, 116);
+            this.lstDropOffHistory.TabIndex = 1;
+            // 
+            // lblDropOffHistory
+            // 
+            this.lblDropOffHistory.AutoSize = true;
+            this.lblDropOffHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDropOffHistory.Location = new System.Drawing.Point(21, 183);
+            this.lblDropOffHistory.Name = "lblDropOffHistory";
+            this.lblDropOffHistory.Size = new System.Drawing.Size(142, 17);
+            this.lblDropOffHistory.TabIndex = 9;
+            this.lblDropOffHistory.Text = "Delivery Time History";
+            // 
+            // lblPickUpHistory
+            // 
+            this.lblPickUpHistory.AutoSize = true;
+            this.lblPickUpHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPickUpHistory.Location = new System.Drawing.Point(21, 15);
+            this.lblPickUpHistory.Name = "lblPickUpHistory";
+            this.lblPickUpHistory.Size = new System.Drawing.Size(155, 17);
+            this.lblPickUpHistory.TabIndex = 10;
+            this.lblPickUpHistory.Text = "Retreiving Time History";
             // 
             // LEGO_Robot_Manager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(676, 414);
+            this.ClientSize = new System.Drawing.Size(859, 414);
+            this.Controls.Add(this.lblHistory);
+            this.Controls.Add(this.pnlHistory);
             this.Controls.Add(this.lblControl);
             this.Controls.Add(this.pnlControl);
             this.Controls.Add(this.lblManage);
@@ -322,6 +416,8 @@
             this.pnlManage.ResumeLayout(false);
             this.pnlManage.PerformLayout();
             this.pnlControl.ResumeLayout(false);
+            this.pnlHistory.ResumeLayout(false);
+            this.pnlHistory.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -353,6 +449,14 @@
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.Button btnManagePauseContinue;
         private System.Windows.Forms.Timer elapsedTime;
+        private System.Windows.Forms.TextBox txtETA;
+        private System.Windows.Forms.Label lblETA;
+        private System.Windows.Forms.Panel pnlHistory;
+        private System.Windows.Forms.Label lblHistory;
+        private System.Windows.Forms.Label lblPickUpHistory;
+        private System.Windows.Forms.Label lblDropOffHistory;
+        private System.Windows.Forms.ListBox lstDropOffHistory;
+        private System.Windows.Forms.ListBox lstPickUpHistory;
     }
 }
 
