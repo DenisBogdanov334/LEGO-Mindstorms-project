@@ -94,12 +94,17 @@ namespace LEGO_Robot_Manager
             isManaged = true;
             UpdateFormGUI();
             messenger.SendMessage("Robot_Mode", "Manage");
+            btnStartManage.Enabled = false;
+            btnStopManage.Enabled = true;
+            btnManagePauseContinue.Enabled = true;
         }
 
         private void btnStopManage_Click(object sender, EventArgs e)
         {
             isManaged = false;
             UpdateFormGUI();
+            messenger.SendMessage("Robot_Mode", "Stop_Manage");
+            btnStartManage.Enabled = true;
         }
 
         private void btnManagePauseContinue_Click(object sender, EventArgs e)
@@ -132,6 +137,8 @@ namespace LEGO_Robot_Manager
             btnPickUp.Enabled = true;
             btnPutDown.Enabled = true;
             messenger.SendMessage("Robot_Mode", "Control");
+            btnStopControl.Enabled = true;
+            btnStartControl.Enabled = false;
         }
 
         private void btnStopControl_Click(object sender, EventArgs e)
@@ -144,7 +151,8 @@ namespace LEGO_Robot_Manager
             btnRight.Enabled = false;
             btnPickUp.Enabled = false;
             btnPutDown.Enabled = false;
-            messenger.SendMessage("MESSAGE", "Stop");
+            messenger.SendMessage("Robot_Mode", "Stop_Control");
+            btnStartControl.Enabled = true;
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -211,6 +219,7 @@ namespace LEGO_Robot_Manager
                         btnPickUp.Enabled = false;
                         btnPutDown.Enabled = false;
                         messenger.SendMessage("MESSAGE", "Stop");
+                        btnStartControl.Enabled = true;
                         break;
                 }                
             }            
@@ -253,7 +262,10 @@ namespace LEGO_Robot_Manager
                 btnRefresh.Enabled = false;
                 btnDisconnect.Enabled = true;
                 pnlManage.Enabled = true;
+                btnStopManage.Enabled = false;
+                btnManagePauseContinue.Enabled = false;
                 pnlControl.Enabled = true;
+                btnStopControl.Enabled = false;
             }
         }
 
